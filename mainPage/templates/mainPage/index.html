@@ -1,0 +1,11 @@
+{% if last_squares %}
+    <ul>
+        {% for square in last_squares %}
+            <li style="background-color:#{{square.color.hex_code}};height:{{square.size}};width:{{square.size}};">
+                <a href="/main-page/{{square.id}}/">{{square.name}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No square in this galaxy.</p>
+{% endif %}
