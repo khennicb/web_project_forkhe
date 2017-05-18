@@ -1,0 +1,10 @@
+.messagePicture{
+    width: 100%;
+    height: 5em;
+}
+
+.pictureText{
+    display: inline-block;
+    width: auto;
+    height: 100%;
+}

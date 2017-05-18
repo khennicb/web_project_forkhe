@@ -1,0 +1,37 @@
+{% extends "pichature/base.html" %}
+
+{% block content %}
+  {% load staticfiles %}
+  <h1>{{ room.name }}</h1>
+  <form id="chatform">
+    <table id="chat">
+      <tbody>
+        {% for message in messages %}
+          <tr>
+            <td>{{ message.formatted_timestamp }}</td>
+            <td>{{ message.user }}</td>
+            <td class="messagePicture">
+              {% for picture in message.message_picture_as_list %}
+                <img class="pictureText" src="{{picture}}">
+              {% endfor %}
+            </td>
+          </tr> 
+        {% endfor %}
+      </tbody>
+      <tfoot>
+      <tr>
+        <td>Dite quelque chose:</td>
+        <td colspan=2>
+          <input id="message" type="text" placeholder="message">
+          <button type="submit" id="go">Dite le</button>
+        </td>
+      </tfoot>
+    </table>
+  </form>
+{% endblock content %}
+
+{% block afterbody %}
+  <script type="text/javascript" src='{% static "jquery-3.2.1.min.js" %}'></script>
+  <script type="text/javascript" src='{% static "reconnecting-websocket.min.js" %}'></script>
+  <script type="text/javascript" src='{% static "chat.js" %}'></script>
+{% endblock afterbody %}

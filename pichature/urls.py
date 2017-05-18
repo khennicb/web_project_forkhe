@@ -1,10 +1,12 @@
 from django.conf.urls import url, include
-
+from django.contrib.auth import views as auth_views
+from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url('^', include('django.contrib.auth.urls')),
     url(r'^$', views.index, name='index'),
-    url(r'^connection/$', views.connection, name='connection'),
-    url(r'^connection/authent/$', views.authent, name='authent'),
+    url('^', include('django.contrib.auth.urls')),
+    url(r'^room/$', views.chat_room, name='room'),
+    url(r'^signup/$', views.signup, name='signup'),
+    url(r'^signup/authent/$', views.signup, name='signup_succed'),
 ]

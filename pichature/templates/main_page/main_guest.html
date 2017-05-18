@@ -1,0 +1,25 @@
+{% extends 'pichature/base.html' %}
+
+{% block title %}Pichature{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<table>
+  <th>
+    <div id="login_button" >
+      <a href="/login/">Login</a>
+    </div>
+  </th>
+  <th>
+    <div id="signup_button">
+      <a href="/signup/">Sign up</a>
+    </div>
+  </th>
+  <th>
+    <div id="ensiwiki_button">
+      <a href="https://ensiwiki.ensimag.fr/index.php/CAW1_2017_Projet_de_Nolwenn_FOREY_et_Benjamin_KHENNICHE" target="_blank">Ensiwiki page</a>
+    </div>
+  </th>
+</table>
+    
+{% endblock %}
