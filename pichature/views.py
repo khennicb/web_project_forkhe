@@ -130,7 +130,7 @@ def receive_message(request):
     msgID = request.GET.get('messageid', None)
     print("receive_message after msgID "+ msgID)
 
-    arrayOfMsg = Message.objects.filter(id__gt=3)
+    arrayOfMsg = Message.objects.filter(id__gt=3)[:1]
     
     arrayToSend = []
     for msg in arrayOfMsg:
@@ -138,7 +138,7 @@ def receive_message(request):
         if(int(msg.id) > int(msgID)):
             JsonMsg = {}
             JsonMsg["id"] =msg.id
-            JsonMsg["user"] =msg.user
+            JsonMsg["user"] =msg.user.username
             JsonMsg["timestamp"] =msg.timestamp
             JsonMsg["message_picture"] =msg.message_picture
             
@@ -146,9 +146,9 @@ def receive_message(request):
             print("yes")
             
     print("Without serealization " + str(arrayToSend))
-
+    
     data = {
-        'new_msg':list(Message.objects.filter(id__gt=3))
+        'new_msg':arrayToSend
     }
     #print("data =" + str(data))
     return JsonResponse(data)

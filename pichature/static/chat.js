@@ -51,12 +51,30 @@ function receiveMessage() {
         dataType: 'json'
     })
     .done(function(data) {
-        console.log(JSON.parse(data.new_msg))
+        console.log(data)
+        addMessageInRoom(data);
     })
     .fail(function() {
         //alert("no new msg can be receive withour refresh.")
         clearInterval(receiveTimeout);
     });
+}
+
+function addMessageInRoom (listMessage) {
+    /*
+      <tr>
+        <td hidden class="id">{{ message.id }}</td>
+        <td class="time_message col-md-1 col-xs-2"><i>{{ message.timestamp|timezone:"Europe/Paris"}}</i></td>
+        <td class="sender col-md-1 col-xs-2"><Strong>{{ message.user }}</Strong></td>
+        <td class="messagePicture col-md-10 col-xs-8">
+          {{ message.message_picture | safe}}
+        </td>
+      </tr> 
+    */
+    
+    
+    
+    
 }
 
 function getLastMsgId(){

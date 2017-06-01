@@ -19,7 +19,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^',include('pichature.urls')),    # Default page
-    url(r'^polls/', include('polls.urls')),
     url(r'^pichature/', include('pichature.urls')), 
     url(r'^main-page/', include('mainPage.urls')),
     url(r'^admin/', admin.site.urls),

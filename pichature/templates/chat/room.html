@@ -5,8 +5,8 @@
   {% load tz %}
   <h1>{{ room.name }}</h1>
   <form id="chatform" method="post" send-message-url="{% url 'send_message' %}">
-    <table id="chat" class="table table-striped">
-      <tbody id="srcollBox" class="msg_list">
+    <table id="chat" class='table table-striped'>
+      <tbody id="srcollBox" class='msg_list'>
         {% for message in messages %}
           <tr>
             <td hidden class="id">{{ message.id }}</td>
@@ -20,9 +20,9 @@
       </tbody>
       <tfoot>
       <tr>
-        <td>Dite quelque chose:</td>
-        <td colspan=2>
+        <td colspan="4">
           {% csrf_token %}
+          <p>Dite quelque chose:</p>
           <input id="message"  type="text" placeholder="message" autofocus>
           <input type="button"  id="go" value="Dite le" onclick="sendMessage();">
         </td>
