@@ -128,9 +128,15 @@ def send_message(request):
 
 def receive_message(request):
     msgID = request.GET.get('messageid', None)
-    print("receive_message after msgID "+ msgID)
+    if(not msgID ):
+        print("receive_message : empty msgID ")
+        return JsonResponse({})
 
-    arrayOfMsg = Message.objects.filter(id__gt=3)[:1]
+
+    print("receive_message after msgID "+ msgID)
+    
+
+    arrayOfMsg = Message.objects.filter(id__gt=3)
     
     arrayToSend = []
     for msg in arrayOfMsg:
@@ -139,7 +145,7 @@ def receive_message(request):
             JsonMsg = {}
             JsonMsg["id"] =msg.id
             JsonMsg["user"] =msg.user.username
-            JsonMsg["timestamp"] =msg.timestamp
+            JsonMsg["timestamp"] =msg.formatted_timestamp
             JsonMsg["message_picture"] =msg.message_picture
             
             arrayToSend.append(JsonMsg)

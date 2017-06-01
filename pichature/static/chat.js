@@ -12,9 +12,9 @@ function load(){
         sendMessage();
         return false;
     });
-    receiveTimeout = setInterval( receiveMessage, 10000 );
+    receiveTimeout = setInterval( receiveMessage, 3000 );
     //setSocket();
-    setTimeout(scrollDown(), 100 );
+    scrollDown();
 }
 
 function scrollDown(){
@@ -23,22 +23,23 @@ function scrollDown(){
 }
 
 function sendMessage() {
-    $.ajax({
-        url: "ajax/send_message/",
-        data: {
-            'message': $('#message').val(),
-        },
-        type: "POST",
-        dataType: 'json'
-    })
-    .done(function() {
-        $('#message').val("");
-        setTimeout(receiveMessage, 1000 );
-        location.reload();
-    })
-    .fail(function() {
-        alert("Erreur : Votre message n'a pu être envoyé.")
-    });
+    if($('#message').val().length > 0) {
+        $.ajax({
+            url: "ajax/send_message/",
+            data: {
+                'message': $('#message').val(),
+            },
+            type: "POST",
+            dataType: 'json'
+        })
+        .done(function() {
+            $('#message').val("");
+            receiveMessage
+        })
+        .fail(function() {
+            alert("Erreur : Votre message n'a pu être envoyé.")
+        });
+    }
 }
 
 function receiveMessage() {
@@ -51,71 +52,38 @@ function receiveMessage() {
         dataType: 'json'
     })
     .done(function(data) {
-        console.log(data)
-        addMessageInRoom(data);
+        if(typeof data["new_msg"] !== 'undefined' && data["new_msg"].length != 0) {
+            data= data["new_msg"];
+            console.log(data)
+            for(var i in data) {
+                addMessageInRoom(data[i]);
+            }
+            scrollDown();
+        }
     })
     .fail(function() {
-        //alert("no new msg can be receive withour refresh.")
+        alert("no new msg can be receive withour refresh.")
         clearInterval(receiveTimeout);
     });
 }
 
-function addMessageInRoom (listMessage) {
-    /*
-      <tr>
-        <td hidden class="id">{{ message.id }}</td>
-        <td class="time_message col-md-1 col-xs-2"><i>{{ message.timestamp|timezone:"Europe/Paris"}}</i></td>
-        <td class="sender col-md-1 col-xs-2"><Strong>{{ message.user }}</Strong></td>
-        <td class="messagePicture col-md-10 col-xs-8">
-          {{ message.message_picture | safe}}
-        </td>
-      </tr> 
-    */
-    
-    
-    
+function addMessageInRoom (message) {
+
+    var htmlToFill = "<tr>";
+    htmlToFill += "<td hidden class=\"id\">"+ message.id  +"</td>";
+    htmlToFill += "<td class=\"time_message col-md-1 col-xs-2\"><i>"+ message.timestamp  +"</i></td>";
+    htmlToFill += "<td class=\"sender col-md-1 col-xs-2\"><Strong>"+ message.user  +"</Strong></td>";
+    htmlToFill += "<td class=\"messagePicture col-md-10 col-xs-8\">"+ message.message_picture  +"</td>";
+    htmlToFill += "</tr>";
+    $(".msg_list").append($(htmlToFill))
     
 }
 
 function getLastMsgId(){
-    // TODO
-    return 3;
+    console.log("last id : " + $(".msg_list > tr:last-child > .id").text())
+    return $(".msg_list > tr:last-child > .id").text();
 }
 
-
-function setSocket() {
-    /*
-    // When we're using HTTPS, use WSS too.
-    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-    var chatsock = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/chat" + window.location.pathname);
-    
-    chatsock.onmessage = function(message) {
-        var data = JSON.parse(message.data);
-        var chat = $("#chat")
-        var elem = $('<tr></tr>')
-
-        elem.append(
-            $("<td></td>").text(data.timestamp)
-        )
-        elem.append(
-            $("<td></td>").text(data.user)
-        )
-        elem.append(
-            $("<td class=\"messagePicture\"></td>").append("<img class=\"pictureText\" src=\"" + data.message_picture + "\" >")
-        )
-        
-        chat.append(elem)
-    };
-    $("#chatform").on("submit", function(event) {
-        var message = {
-            user: 0, //getCookie("userId"),
-            message: $('#message').val(),
-        }
-        chatsock.send(JSON.stringify(message));
-        $("#message").val('').focus();
-        return false;
-    });*/
-}
 
 function getCookie(name) {
     var cookies = document.cookie.split(';');

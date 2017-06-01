@@ -38,7 +38,7 @@ class Message(models.Model):
         
     @property
     def formatted_timestamp(self):
-        return self.timestamp.strftime('%b %-d %-I:%M %p')
+        return self.timestamp.strftime('%b %-d %-I:')
         
     def as_dict(self):
         return {'user': self.user, 'message_picture': self.message_picture, 'timestamp': self.formatted_timestamp}

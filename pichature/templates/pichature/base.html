@@ -22,7 +22,7 @@
       <img src="{% static "chat_pichat_title.png" %}" alt="Pichature" height="67" width="120" class="img-thumbnail">
     </a>
     {% if user.is_authenticated %}
-      <h2> Capitaine {{user.username}}</h2>
+      <h2 name="captaine"> Capitaine {{user.username}}</h2>
       <a href="/logout/?next=/" class="logout">log out</a>
     {% else %}
       <p> - - - </p>

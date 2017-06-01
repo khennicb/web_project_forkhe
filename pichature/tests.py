@@ -62,3 +62,5 @@ class AccountTestCase(LiveServerTestCase):
         submit.send_keys(Keys.RETURN)
         
         #check the returned result
+        findCaptain = selenium.find_element_by_name('captaine')
+        assert findCaptain.text == 'Capitaine' + login
