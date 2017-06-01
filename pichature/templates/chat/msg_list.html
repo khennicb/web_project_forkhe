@@ -1,0 +1,11 @@
+
+{% for message in messages %}
+  <tr>
+    <td hidden class="id">{{ message.id }}</td>
+    <td class="time_message">{{ message.formatted_timestamp }}</td>
+    <td class="sender">{{ message.user }}</td>
+    <td class="messagePicture">
+      {{ message.message_picture | safe}}
+    </td>
+  </tr> 
+{% endfor %}

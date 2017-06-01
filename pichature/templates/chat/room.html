@@ -2,18 +2,18 @@
 
 {% block content %}
   {% load staticfiles %}
+  {% load tz %}
   <h1>{{ room.name }}</h1>
-  <form id="chatform">
-    <table id="chat">
-      <tbody>
+  <form id="chatform" method="post" send-message-url="{% url 'send_message' %}">
+    <table id="chat" class="table table-striped">
+      <tbody id="srcollBox" class="msg_list">
         {% for message in messages %}
           <tr>
-            <td>{{ message.formatted_timestamp }}</td>
-            <td>{{ message.user }}</td>
-            <td class="messagePicture">
-              {% for picture in message.message_picture_as_list %}
-                <img class="pictureText" src="{{picture}}">
-              {% endfor %}
+            <td hidden class="id">{{ message.id }}</td>
+            <td class="time_message col-md-1 col-xs-2"><i>{{ message.timestamp|timezone:"Europe/Paris"}}</i></td>
+            <td class="sender col-md-1 col-xs-2"><Strong>{{ message.user }}</Strong></td>
+            <td class="messagePicture col-md-10 col-xs-8">
+              {{ message.message_picture | safe}}
             </td>
           </tr> 
         {% endfor %}
@@ -22,8 +22,9 @@
       <tr>
         <td>Dite quelque chose:</td>
         <td colspan=2>
-          <input id="message" type="text" placeholder="message">
-          <button type="submit" id="go">Dite le</button>
+          {% csrf_token %}
+          <input id="message"  type="text" placeholder="message" autofocus>
+          <input type="button"  id="go" value="Dite le" onclick="sendMessage();">
         </td>
       </tfoot>
     </table>
@@ -32,6 +33,6 @@
 
 {% block afterbody %}
   <script type="text/javascript" src='{% static "jquery-3.2.1.min.js" %}'></script>
-  <script type="text/javascript" src='{% static "reconnecting-websocket.min.js" %}'></script>
+  <!--<script type="text/javascript" src='{% static "reconnecting-websocket.min.js" %}'></script>-->
   <script type="text/javascript" src='{% static "chat.js" %}'></script>
 {% endblock afterbody %}

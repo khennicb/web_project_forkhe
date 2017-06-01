@@ -1,10 +1,72 @@
+/*global $*/
+/*global ReconnectingWebSocket*/
+/*global location*/
 window.addEventListener('load',load);
+var receiveTimeout;
 
 function load(){
-    setSocket();
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": getCookie("csrftoken") }
+    });
+    $('#chatform').submit(function () {
+        sendMessage();
+        return false;
+    });
+    receiveTimeout = setInterval( receiveMessage, 10000 );
+    //setSocket();
+    setTimeout(scrollDown(), 100 );
 }
 
-/*function setSocket() {
+function scrollDown(){
+    var elem = document.getElementById('srcollBox');
+    elem.scrollTop = elem.scrollHeight;
+}
+
+function sendMessage() {
+    $.ajax({
+        url: "ajax/send_message/",
+        data: {
+            'message': $('#message').val(),
+        },
+        type: "POST",
+        dataType: 'json'
+    })
+    .done(function() {
+        $('#message').val("");
+        setTimeout(receiveMessage, 1000 );
+        location.reload();
+    })
+    .fail(function() {
+        alert("Erreur : Votre message n'a pu être envoyé.")
+    });
+}
+
+function receiveMessage() {
+    $.ajax({
+        url: "ajax/receive_message/",
+        data: {
+            'messageid': getLastMsgId(),
+        },
+        type: "GET",
+        dataType: 'json'
+    })
+    .done(function(data) {
+        console.log(JSON.parse(data.new_msg))
+    })
+    .fail(function() {
+        //alert("no new msg can be receive withour refresh.")
+        clearInterval(receiveTimeout);
+    });
+}
+
+function getLastMsgId(){
+    // TODO
+    return 3;
+}
+
+
+function setSocket() {
+    /*
     // When we're using HTTPS, use WSS too.
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     var chatsock = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/chat" + window.location.pathname);
@@ -26,7 +88,6 @@ function load(){
         
         chat.append(elem)
     };
-
     $("#chatform").on("submit", function(event) {
         var message = {
             user: 0, //getCookie("userId"),
@@ -35,8 +96,8 @@ function load(){
         chatsock.send(JSON.stringify(message));
         $("#message").val('').focus();
         return false;
-    });
-}*/
+    });*/
+}
 
 function getCookie(name) {
     var cookies = document.cookie.split(';');

@@ -25,7 +25,10 @@ SECRET_KEY = '0%d0ls^%o7oqz3*6#&!2l*-o6ct(1e#quvsq$wk%)h9b0nksyc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'web-project-forkhe-fishkiller.c9users.io',
+]
+
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 

@@ -17,24 +17,8 @@ class Chatroom(models.Model):
     def __str__(self):
         return self.label
     
-    #def get_main(self):
-    #    return self.filter(label='main')
-
-#@python_2_unicode_compatible
-#class ChatroomUser(models.Model):
-#    chatroom = models.ForeignKey(Chatroom, on_delete=models.CASCADE)
-#    user = models.ForeignKey(User, on_delete=models.CASCADE)
-#    
-#    class Meta:
-#        unique_together = ('chatroom', 'user')
-#    
-#@python_2_unicode_compatible
-#class ChatroomAdmin(models.Model):
-#    chatroom = models.ForeignKey(Chatroom, on_delete=models.CASCADE)
-#    user = models.ForeignKey(User, on_delete=models.CASCADE)
-#    
-#    class Meta:
-#        unique_together = ('chatroom', 'user')
+#    def get_main(self):
+#        return self.get(label='main')
 
 
 @python_2_unicode_compatible
@@ -57,6 +41,5 @@ class Message(models.Model):
         return self.timestamp.strftime('%b %-d %-I:%M %p')
         
     def as_dict(self):
-        return {'user': self.user, 'message_picture': self.message_picture_as_list, 'timestamp': self.formatted_timestamp}
+        return {'user': self.user, 'message_picture': self.message_picture, 'timestamp': self.formatted_timestamp}
     
-# Create your models here.
