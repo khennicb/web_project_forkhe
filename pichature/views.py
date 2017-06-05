@@ -123,6 +123,10 @@ def send_message(request):
     message = Message(chatroom=chatroomObj, user=userObj, message_text=messageReceved, message_picture=message_picture_string)
     message.save()
     
+    if(len(Message.objects.all())>20):
+        print("We are suppressing a msg because we are above 20 message")
+        Message.objects.all().order_by('timestamp')[0].delete()
+    
     return HttpResponse(204)
 
 
@@ -132,34 +136,22 @@ def receive_message(request):
         print("receive_message : empty msgID ")
         return JsonResponse({})
 
-
     print("receive_message after msgID "+ msgID)
-    
 
     arrayOfMsg = Message.objects.filter(id__gt=3)
     
     arrayToSend = []
     for msg in arrayOfMsg:
-        print("msg.id ? msgID  (" + str(msg.id) + "; " + str(msgID) +")" )
         if(int(msg.id) > int(msgID)):
             JsonMsg = {}
             JsonMsg["id"] =msg.id
             JsonMsg["user"] =msg.user.username
             JsonMsg["timestamp"] =msg.formatted_timestamp
             JsonMsg["message_picture"] =msg.message_picture
-            
             arrayToSend.append(JsonMsg)
-            print("yes")
             
-    print("Without serealization " + str(arrayToSend))
-    
     data = {
         'new_msg':arrayToSend
     }
-    #print("data =" + str(data))
     return JsonResponse(data)
-    
-    
-    
-    
     

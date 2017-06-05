@@ -62,8 +62,8 @@ function receiveMessage() {
         }
     })
     .fail(function() {
-        alert("no new msg can be receive withour refresh.")
-        clearInterval(receiveTimeout);
+        console.log("no new msg can be receive without refresh.")
+        location.reload();
     });
 }
 
@@ -80,8 +80,12 @@ function addMessageInRoom (message) {
 }
 
 function getLastMsgId(){
-    console.log("last id : " + $(".msg_list > tr:last-child > .id").text())
-    return $(".msg_list > tr:last-child > .id").text();
+    if($(".msg_list").has("td").length == 0) {
+        return 0;
+    }else {
+        //console.log("last id : " + $(".msg_list > tr:last-child > .id").text())
+        return $(".msg_list > tr:last-child > .id").text();
+    }
 }
 
 
